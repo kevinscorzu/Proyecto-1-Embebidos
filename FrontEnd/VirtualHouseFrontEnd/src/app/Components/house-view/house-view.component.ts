@@ -66,12 +66,18 @@ export class HouseViewComponent implements OnInit {
       var light5 = new Circle(this.ctx);
       light5.x = 670;
       light5.y = 380;
-      light5.on = 1;
       light5.id = 5;
       this.lights.push(light5)
 
       for(let light of this.lights){
         light.draw()
+        light.firstTime = false;
+        }
+    }
+    reDrawLights(){
+      for(let light of this.lights){
+        light.draw()
+        
         }
     }
 
@@ -109,6 +115,7 @@ export class HouseViewComponent implements OnInit {
       
       for(let door of this.doors){
         door.draw()
+        
         }
     }
 
@@ -141,8 +148,22 @@ export class HouseViewComponent implements OnInit {
     }, 1);
   }
 
-  play() {
+  actionLight(id: number){
+    for(let light of this.lights){
+      if (light.id == id){
+        light.on = !light.on;
+      }
+      }
+      this.reDrawLights();
   }
+  actionDoor(id: number){
+    for(let door of this.doors){
+      if (door.id == id){
+        door.on = !door.on;
+      }
+      }
+  }
+  
   constructor(private ngZone: NgZone) {}
   
   animate(): void {}

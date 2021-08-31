@@ -5,7 +5,7 @@ export class Square {
     public w = 70;
     public h = 20;
     public id = -1;
-    public on = 1;
+    public on = false;
     public side = 'h';
   
     constructor(private ctx: CanvasRenderingContext2D) {}
@@ -21,11 +21,12 @@ export class Square {
       }
       
 
-      if (this.on==1){
+      if (this.on==true){
         this.ctx.fillStyle = this.color;
         this.ctx.fillRect(this.x,this.y,this.w,this.h);
         } else {
-            this.ctx.strokeRect(this.x,this.y,this.w,this.h);
+            
+            this.ctx.fillRect(this.x,this.y,this.w,this.h);
       }
     }
   }
