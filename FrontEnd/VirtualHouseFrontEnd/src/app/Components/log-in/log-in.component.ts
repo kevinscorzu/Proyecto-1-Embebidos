@@ -32,7 +32,7 @@ export class LogInComponent implements OnInit {
     else{
       console.log("Credenciales incorrectos");
       alert("Credenciales incorrectos");
-      this.router.navigateByUrl('houseView');
+      
     }
   }
 
