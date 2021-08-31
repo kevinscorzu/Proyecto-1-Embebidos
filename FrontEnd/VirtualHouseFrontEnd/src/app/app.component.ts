@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-
+import {Router} from '@angular/router';
 import {ReactiveFormsModule,FormGroup, FormControl, Validators, FormBuilder} from '@angular/forms';
+import { AppRoutingModule, routingComponents } from './app-routing.module';
+
 
 @Component({
   selector: 'app-root',
@@ -17,7 +19,9 @@ export class AppComponent implements OnInit{
   password: string  = "";
 
   
+  constructor(private router:Router){
 
+  }
 
   
   onLogIn(username:string, password:string){
@@ -25,11 +29,13 @@ export class AppComponent implements OnInit{
     console.log(password);
     if(password == "admin" && username == "admin"){
       console.log("Credenciales correctos");
-      alert("Credenciales correctos");
+      
+      this.router.navigate(['/houseView']);
     }
     else{
       console.log("Credenciales incorrectos");
       alert("Credenciales incorrectos");
+      this.router.navigateByUrl('houseView');
     }
   }
 
