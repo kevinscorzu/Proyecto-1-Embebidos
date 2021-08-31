@@ -12,22 +12,37 @@ import { AppRoutingModule, routingComponents } from './app-routing.module';
 
 
 
-export class AppComponent {
+export class AppComponent implements OnInit{
 
   title = 'VirtualHouseFrontEnd';
-  show = 'login'; // Por defecto muestra la ventana de login
-  
+  username: string  = "";
+  password: string  = "";
 
-  /* Al recargar la página */
-  refresh(): void {
-    window.location.reload();
-  }
-  constructor(){
+  
+  constructor(private router:Router){
 
   }
 
-
+  
+  onLogIn(username:string, password:string){
+    console.log(username);
+    console.log(password);
+    if(password == "admin" && username == "admin"){
+      console.log("Credenciales correctos");
+      
+      this.router.navigate(['/houseView']);
+    }
+    else{
+      console.log("Credenciales incorrectos");
+      alert("Credenciales incorrectos");
+      this.router.navigateByUrl('houseView');
+    }
+  }
 
 
   
+
+  ngOnInit() {
+
+  }
 }

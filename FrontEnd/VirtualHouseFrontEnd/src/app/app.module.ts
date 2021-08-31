@@ -6,14 +6,12 @@ import { routingComponents } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HouseViewComponent } from './Components/house-view/house-view.component';
-import { LogInComponent } from './Components/log-in/log-in.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    routingComponents,
-    LogInComponent
+    routingComponents
   ],
   imports: [
     BrowserModule,
