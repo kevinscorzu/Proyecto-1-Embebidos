@@ -34,6 +34,12 @@ export class HouseViewComponent implements OnInit {
       var canvasEl: HTMLCanvasElement = this.canvas.nativeElement;
       var ctx = canvasEl.getContext('2d');
       this.ctx = ctx!;
+      this.ctx.strokeRect(0, 0, 200, 200); //Sala
+      this.ctx.strokeRect(0, 200, 200, 260); //Comedor
+      this.ctx.strokeRect(200, 0, 400, 150); //Cocina
+      this.ctx.strokeRect(200, 150, 300, 310); //Habitacion 1
+
+
     }, 1);
   }
   
@@ -43,8 +49,9 @@ export class HouseViewComponent implements OnInit {
   
 
   play() {
-    this.ctx.fillStyle = 'red'; 
-    this.ctx.fillRect(0, 0, 5, 5);
+    
+    this.ctx.strokeRect(0, 0, 100, 100);
+
   }
   constructor(private ngZone: NgZone) {}
   
