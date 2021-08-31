@@ -38,8 +38,9 @@ export class HouseViewComponent implements OnInit {
       this.ctx.strokeRect(0, 200, 200, 260); //Comedor
       this.ctx.strokeRect(200, 0, 400, 150); //Cocina
       this.ctx.strokeRect(200, 150, 300, 310); //Habitacion 1
-
-
+      this.ctx.strokeRect(600, 0, 200, 150); //Bano
+      this.ctx.strokeRect(500, 150, 300, 150); //Habitacion 3
+      this.ctx.strokeRect(500, 300, 300, 160); //Habitacion 2
     }, 1);
   }
   
