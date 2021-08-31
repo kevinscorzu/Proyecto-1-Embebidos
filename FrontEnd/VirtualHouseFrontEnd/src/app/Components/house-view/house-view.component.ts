@@ -1,4 +1,6 @@
-import { Component,ViewChild, ElementRef, OnInit } from '@angular/core';
+import { Component,ViewChild, ElementRef, OnInit ,NgZone} from '@angular/core';
+
+import { Square } from './square';
 
 @Component({
   selector: 'app-house-view',
@@ -17,7 +19,12 @@ export class HouseViewComponent implements OnInit {
   @ViewChild('canvas', { static: true })
   canvas: ElementRef<HTMLCanvasElement>;  
   
-  private ctx: CanvasRenderingContext2D;
+  private ctx: CanvasRenderingContext2D = null as any;
+  squares: Square[] = [];
+
+  requestId:any;
+  interval:any;
+
 
   ngOnInit(): void {
     }
@@ -25,10 +32,21 @@ export class HouseViewComponent implements OnInit {
   ngAfterViewInit() {
     setTimeout(() => {
       var canvasEl: HTMLCanvasElement = this.canvas.nativeElement;
-      var cx = canvasEl.getContext('2d');
-    
+      var ctx = canvasEl.getContext('2d');
+      this.ctx = ctx!;
     }, 1);
   }
+  
+
+
+
+  
+
+  play() {
+    this.ctx.fillStyle = 'red'; 
+    this.ctx.fillRect(0, 0, 5, 5);
+  }
+  constructor(private ngZone: NgZone) {}
   
   animate(): void {}
 
