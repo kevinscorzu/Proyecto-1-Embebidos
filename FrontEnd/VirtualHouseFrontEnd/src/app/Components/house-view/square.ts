@@ -1,15 +1,31 @@
 export class Square {
-    private color = 'red';
-    private x = 0;
-    private y = 0;
-    private z = 30;
+    public color = 'red';
+    public x = 0;
+    public y = 0;
+    public w = 70;
+    public h = 20;
+    public id = -1;
+    public on = 1;
+    public side = 'h';
   
     constructor(private ctx: CanvasRenderingContext2D) {}
   
     
   
-     draw(x: number, y: number, z: number) {
+     draw() {
       this.ctx.fillStyle = this.color;
-      this.ctx.fillRect(this.z * this.x, this.z * this.y, this.z, this.z);
+      
+      if (this.side == 'v'){
+        this.h = 70;
+        this.w = 20;
+      }
+      
+
+      if (this.on==1){
+        this.ctx.fillStyle = this.color;
+        this.ctx.fillRect(this.x,this.y,this.w,this.h);
+        } else {
+            this.ctx.strokeRect(this.x,this.y,this.w,this.h);
+      }
     }
   }
