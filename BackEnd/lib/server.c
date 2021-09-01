@@ -1,4 +1,14 @@
-#include "../include/server.h"
+#include <config.h>
+
+#include <gpio.h>
+
+#include <ulfius.h>
+#include <jansson.h>
+#include <string.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <semaphore.h>
+#include <fcntl.h>
 
 int allowCORS(const struct _u_request *request, struct _u_response *response, void *user_data);
 int receiveLEDS(const struct _u_request *request, struct _u_response *response, void *user_data);
@@ -9,6 +19,11 @@ int enablePins();
 int disablePins();
 void *readDoors(void *args);
 void readDoorAux();
+
+pthread_t doorThread;
+pthread_mutex_t houseLock;
+pthread_mutex_t stopLock;
+sem_t *semStop;
 
 int port = 8080;
 
@@ -35,8 +50,8 @@ int door4State = 0;
 int door0GPIO = 23;
 int door1GPIO = 24;
 int door2GPIO = 25;
-int door3GPIO = 8;
-int door4GPIO = 7;
+int door3GPIO = 18;
+int door4GPIO = 12;
 
 int stopThread = 0;
 
@@ -147,33 +162,33 @@ int receiveLEDS(const struct _u_request *request, struct _u_response *response, 
             switch (led) {
                 case 0:
                     led0State = !led0State;
-                    //Llamar a digitalWrite
-                    printf("Se ha cambiado el estado del LED %d a %d\n", led, led0State);
+                    digitalWrite(led0GPIO, led0State);
+                    printf("LED %d value changed to %d\n", led, led0State);
                     break;
                 case 1:
                     led1State = !led1State;
-                    //Llamar a digitalWrite
-                    printf("Se ha cambiado el estado del LED %d a %d\n", led, led1State);
+                    digitalWrite(led1GPIO, led1State);
+                    printf("LED %d value changed to %d\n", led, led1State);
                     break;
                 case 2:
                     led2State = !led2State;
-                    //Llamar a digitalWrite
-                    printf("Se ha cambiado el estado del LED %d a %d\n", led, led2State);
+                    digitalWrite(led2GPIO, led2State);
+                    printf("LED %d value changed to %d\n", led, led2State);
                     break;
                 case 3:
                     led3State = !led3State;
-                    //Llamar a digitalWrite
-                    printf("Se ha cambiado el estado del LED %d a %d\n", led, led3State);
+                    digitalWrite(led3GPIO, led3State);
+                    printf("LED %d value changed to %d\n", led, led3State);
                     break;
                 case 4:
                     led4State = !led4State;
-                    //Llamar a digitalWrite
-                    printf("Se ha cambiado el estado del LED %d a %d\n", led, led4State);
+                    digitalWrite(led4GPIO, led4State);
+                    printf("LED %d value changed to %d\n", led, led4State);
                     break;
                 case 5:
                     led5State = !led5State;
-                    //Llamar a digitalWrite
-                    printf("Se ha cambiado el estado del LED %d a %d\n", led, led5State);
+                    digitalWrite(led5GPIO, led5State);
+                    printf("LED %d value changed to %d\n", led, led5State);
                     break;
             }
 
@@ -225,9 +240,10 @@ int getHouseState(const struct _u_request *request, struct _u_response *response
  * Function that takes a picture with the camera
  */
 int getPicture(const struct _u_request *request, struct _u_response *response, void *user_data) {
-    //Llamar funcion para tomar imagen
+    
+    system("fswebcam image.jpg");
 
-    system("base64 0.jpg > data.txt");
+    system("base64 image.jpg > data.txt");
 
     FILE *base64Image = fopen("data.txt", "r");
     char line[121];
@@ -272,7 +288,7 @@ int getPicture(const struct _u_request *request, struct _u_response *response, v
     json_decref(imageJson);
     free(response_body);
 
-    //remove("image.jpg");
+    remove("image.jpg");
     remove("data.txt");
 
     return U_CALLBACK_CONTINUE;
@@ -303,17 +319,47 @@ int stopServer(const struct _u_request *request, struct _u_response *response, v
  * Function that initializes the pins of the Raspberry Pi
  */
 int enablePins() {
+
     printf("Initializing pins\n");
 
-    //Llamar a pinenable
+    enablePin(led0GPIO);
+    enablePin(led1GPIO);
+    enablePin(led2GPIO);
+    enablePin(led3GPIO);
+    enablePin(led4GPIO);
+    enablePin(led5GPIO);
+
+    enablePin(door0GPIO);
+    enablePin(door1GPIO);
+    enablePin(door2GPIO);
+    enablePin(door3GPIO);
+    enablePin(door4GPIO);
 
     printf("Pins initialized successfully\n");
 
     printf("Configuring pins\n");
 
-    //Llamar a pinmode
+    pinMode(led0GPIO, "out");
+    pinMode(led1GPIO, "out");
+    pinMode(led2GPIO, "out");
+    pinMode(led3GPIO, "out");
+    pinMode(led4GPIO, "out");
+    pinMode(led5GPIO, "out");
+
+    pinMode(door0GPIO, "in");
+    pinMode(door1GPIO, "in");
+    pinMode(door2GPIO, "in");
+    pinMode(door3GPIO, "in");
+    pinMode(door4GPIO, "in");
 
     printf("Pins configured successfully\n");
+
+    digitalWrite(led0GPIO, 0);
+    digitalWrite(led1GPIO, 0);
+    digitalWrite(led2GPIO, 0);
+    digitalWrite(led3GPIO, 0);
+    digitalWrite(led4GPIO, 0);
+    digitalWrite(led5GPIO, 0);
     
     return 0;
 }
@@ -322,9 +368,21 @@ int enablePins() {
  * Function that disables the pins of the Raspberry Pi
  */
 int disablePins() {
+
     printf("Disabling pins\n");
 
-    //Llamar a pindisable
+    disablePin(led0GPIO);
+    disablePin(led1GPIO);
+    disablePin(led2GPIO);
+    disablePin(led3GPIO);
+    disablePin(led4GPIO);
+    disablePin(led5GPIO);
+
+    disablePin(door0GPIO);
+    disablePin(door1GPIO);
+    disablePin(door2GPIO);
+    disablePin(door3GPIO);
+    disablePin(door4GPIO);
 
     printf("Pins disabled successfully\n");
 
@@ -345,35 +403,35 @@ void *readDoors(void *args) {
 
         pthread_mutex_lock(&houseLock);
 
-        // Llamar a digitalRead
+        readValue = digitalRead(door0GPIO);
 
         if (readValue == 1) {
             door0State = !door0State;
             readDoorAux(door0GPIO);
         }
 
-        // Llamar a digitalRead
+        readValue = digitalRead(door1GPIO);
 
         if (readValue == 1) {
             door1State = !door1State;
             readDoorAux(door1GPIO);
         }
 
-        // Llamar a digitalRead
+        readValue = digitalRead(door2GPIO);
 
         if (readValue == 1) {
             door2State = !door2State;
             readDoorAux(door2GPIO);
         }
 
-        // Llamar a digitalRead
+        readValue = digitalRead(door3GPIO);
 
         if (readValue == 1) {
             door3State = !door3State;
             readDoorAux(door3GPIO);
         }
 
-        // Llamar a digitalRead
+        readValue = digitalRead(door4GPIO);
 
         if (readValue == 1) {
             door4State = !door4State;
@@ -394,11 +452,13 @@ void readDoorAux(int doorGPIO) {
     int readValue = 0;
 
     while (1) {
-        //Llamar a digitalRead
+
+        readValue = digitalRead(doorGPIO);
 
         if (readValue == 0) {
             break;
         }
+        
     }
 
     return;
