@@ -87,8 +87,26 @@ export class HouseViewComponent implements OnInit {
         }
     }
     updateAll(){
-      this.reDrawLights();
-      this.reDrawDoors();
+
+        this.http.getAllHouse().subscribe((data) => {
+        var json = JSON.parse(JSON.stringify(data));
+        
+        for (let element of this.lights){
+          var status = json["led" + String(element.id)];
+          element.on = status;
+        }
+        for (let element of this.doors){
+          var status = json["door" + String(element.id)];
+          element.on = status;
+        }
+        this.reDrawLights();
+        this.reDrawDoors();
+      }, (error) => {
+        console.log("Error al realizar la actualizacion de la casa");
+        console.log(error);
+      });
+
+      
       
     }
     takePicture(){
@@ -178,8 +196,15 @@ export class HouseViewComponent implements OnInit {
       if (light.id == id){
         light.on = !light.on;
       }
-      }
-      this.reDrawLights();
+    }
+    this.reDrawLights();
+    this.http.postLedChanges(id).subscribe((data) => {
+      console.log(data)
+    }, (error) => {
+      console.log("Error al actualizar las luces");
+      console.log(error);
+    });
+      
   }
   actionDoor(id: number){
     for(let door of this.doors){
