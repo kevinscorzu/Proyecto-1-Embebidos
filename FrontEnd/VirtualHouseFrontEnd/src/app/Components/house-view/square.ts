@@ -24,8 +24,9 @@ export class Square {
       if (this.on==true){
         this.ctx.fillStyle = this.color;
         this.ctx.fillRect(this.x,this.y,this.w,this.h);
-        } else {
-            
+        } 
+        else {
+            this.ctx.fillStyle = "white";  
             this.ctx.fillRect(this.x,this.y,this.w,this.h);
       }
     }

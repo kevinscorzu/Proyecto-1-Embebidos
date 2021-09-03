@@ -98,6 +98,10 @@ export class HouseViewComponent implements OnInit {
         for (let element of this.doors){
           var status = json["door" + String(element.id)];
           element.on = status;
+          if (element.id == 1){
+            console.log("LA PUERTA 1:")
+            console.log(status);
+          }
         }
         this.reDrawLights();
         this.reDrawDoors();
