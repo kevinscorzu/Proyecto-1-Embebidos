@@ -113,21 +113,31 @@ export class HouseViewComponent implements OnInit {
       
       
     }
-    takePicture(){
-      var img = new Image();
-      this.http.getCamara().subscribe((data) => {
+    async loadImage(src: string): Promise<HTMLImageElement> {
+      const image = new Image();
+      image.src = src;
+      return new Promise(resolve => {
+          image.onload = (ev) => {
+              resolve(image);
+          }
+      });
+  }
+    async takePicture(){
+      
+      this.http.getCamara().subscribe(async (data) => {
         var json = JSON.parse(JSON.stringify(data));
-        var base64img = json["image"];
-        img.src = 'data:image/gif;base64,'+ base64img;
-        this.ctx.drawImage(img,200,465,450,450);
-        console.log("Imagen correctamente cargada");
+        let base64img = json["image"];
+        let url = "data:image/gif;base64," + String(base64img);
+        const image: HTMLImageElement = await this.loadImage(url);
+        this.ctx.drawImage(image,200,465,450,450);
+        console.log('Imagen cargada');
+        
       }, (error) => {
         console.log("Error al cargar la imagen:");
         console.log(error);
       });
-      
-      
-    }
+    };
+    
     initializeDoors(){
       var door0 = new Square(this.ctx);
       door0.x = 90;
