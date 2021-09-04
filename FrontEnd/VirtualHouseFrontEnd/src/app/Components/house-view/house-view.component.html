@@ -1,0 +1,24 @@
+
+<div style = "text-align:center">
+<h1>
+Bienvenido a su Casa Virtual
+</h1>
+<div class="col">
+      <canvas #canvas width="800" height="900"></canvas>
+</div>
+<div class="col">
+<button (click)="actionLight(0)">Sala</button>
+<button (click)="actionLight(1)">Comedor</button>
+<button (click)="actionLight(2)">Cocina</button>
+<button (click)="actionLight(3)">Habitacion 1</button>
+<button (click)="actionLight(4)">Baño</button>
+<button (click)="actionLight(5)">Habitacion 2</button>
+</div>
+<div class="col">
+<button (click)="updateAll()">Actualizar</button>
+</div>
+<div class="col">
+<button (click)="takePicture()">Tomar fotografía</button>
+</div>
+
+</div>
