@@ -35,19 +35,19 @@
 #define LT_OBJDIR ".libs/"
 
 /* Name of package */
-#define PACKAGE "libinthouse"
+#define PACKAGE "inthouse"
 
 /* Define to the address where bug reports for this package should be sent. */
 #define PACKAGE_BUGREPORT "kevinscorzu@gmail.com, leahyvasquez@gmail.com, imanoisaac@gmail.com"
 
 /* Define to the full name of this package. */
-#define PACKAGE_NAME "libinthouse"
+#define PACKAGE_NAME "inthouse"
 
 /* Define to the full name and version of this package. */
-#define PACKAGE_STRING "libinthouse 1.0"
+#define PACKAGE_STRING "inthouse 1.0"
 
 /* Define to the one symbol short name of this package. */
-#define PACKAGE_TARNAME "libinthouse"
+#define PACKAGE_TARNAME "inthouse"
 
 /* Define to the home page for this package. */
 #define PACKAGE_URL ""

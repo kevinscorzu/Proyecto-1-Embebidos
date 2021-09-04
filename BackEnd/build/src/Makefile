@@ -70,10 +70,10 @@ am__make_running_with_option = \
   test $$has_opt = yes
 am__make_dryrun = (target_option=n; $(am__make_running_with_option))
 am__make_keepgoing = (target_option=k; $(am__make_running_with_option))
-pkgdatadir = $(datadir)/libinthouse
-pkgincludedir = $(includedir)/libinthouse
-pkglibdir = $(libdir)/libinthouse
-pkglibexecdir = $(libexecdir)/libinthouse
+pkgdatadir = $(datadir)/inthouse
+pkgincludedir = $(includedir)/inthouse
+pkglibdir = $(libdir)/inthouse
+pkglibexecdir = $(libexecdir)/inthouse
 am__cd = CDPATH="$${ZSH_VERSION+.}$(PATH_SEPARATOR)" && cd
 install_sh_DATA = $(install_sh) -c -m 644
 install_sh_PROGRAM = $(install_sh) -c
@@ -224,11 +224,11 @@ OBJDUMP = objdump
 OBJEXT = o
 OTOOL = 
 OTOOL64 = 
-PACKAGE = libinthouse
+PACKAGE = inthouse
 PACKAGE_BUGREPORT = kevinscorzu@gmail.com, leahyvasquez@gmail.com, imanoisaac@gmail.com
-PACKAGE_NAME = libinthouse
-PACKAGE_STRING = libinthouse 1.0
-PACKAGE_TARNAME = libinthouse
+PACKAGE_NAME = inthouse
+PACKAGE_STRING = inthouse 1.0
+PACKAGE_TARNAME = inthouse
 PACKAGE_URL = 
 PACKAGE_VERSION = 1.0
 PATH_SEPARATOR = :

@@ -1,4 +1,4 @@
-AC_INIT([libinthouse], [1.0], [kevinscorzu@gmail.com, leahyvasquez@gmail.com, imanoisaac@gmail.com])
+AC_INIT([inthouse], [1.0], [kevinscorzu@gmail.com, leahyvasquez@gmail.com, imanoisaac@gmail.com])
 AC_CONFIG_AUX_DIR([build-aux])
 AC_CONFIG_MACRO_DIR([m4])
 AM_INIT_AUTOMAKE([foreign -Wall -Werror])
