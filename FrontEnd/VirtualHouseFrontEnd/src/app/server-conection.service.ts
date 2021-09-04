@@ -8,7 +8,7 @@ export class ServerConectionService {
 
   constructor(private http: HttpClient) {
   }
-  server = 'http://d01e-186-176-127-205.ngrok.io/';
+  server = 'http://localhost:8080/';
 
   postLedChanges(led: number) {
   var response:number[]; 

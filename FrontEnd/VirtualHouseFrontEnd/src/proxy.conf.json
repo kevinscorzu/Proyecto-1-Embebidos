@@ -1,6 +1,6 @@
 {
     "/Api/House/*": {
-        "target": "http://d01e-186-176-127-205.ngrok.io/",
+        "target": "http://localhost:8080/",
         "secure": false,
         "logLevel": "debug"
     }
