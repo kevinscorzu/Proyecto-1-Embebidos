@@ -1,6 +1,6 @@
 {
     "/Api/House/*": {
-        "target": "http://d6ec-186-176-127-205.ngrok.io/",
+        "target": "http://d01e-186-176-127-205.ngrok.io/",
         "secure": false,
         "logLevel": "debug"
     }
