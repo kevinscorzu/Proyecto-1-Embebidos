@@ -202,6 +202,7 @@ export class HouseViewComponent implements OnInit {
       this.drawBackground();
       this.initializeLights();
       this.initializeDoors();
+      this.updateAll();
     }, 1);
   }
 
