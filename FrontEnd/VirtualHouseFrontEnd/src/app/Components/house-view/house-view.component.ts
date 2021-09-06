@@ -215,11 +215,12 @@ export class HouseViewComponent implements OnInit {
     this.reDrawLights();
     this.http.postLedChanges(id).subscribe((data) => {
       console.log(data)
+      this.updateAll();
     }, (error) => {
       console.log("Error al actualizar las luces");
       console.log(error);
     });
-    this.updateAll();
+    
       
   }
   actionDoor(id: number){
