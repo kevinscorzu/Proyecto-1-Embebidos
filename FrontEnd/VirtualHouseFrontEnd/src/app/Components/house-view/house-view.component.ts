@@ -232,6 +232,7 @@ export class HouseViewComponent implements OnInit {
       }
     }
     this.reDrawLights();
+    this.updateDoors();
     this.http.postLedChanges(id).subscribe((data) => {
       console.log(data)
       
