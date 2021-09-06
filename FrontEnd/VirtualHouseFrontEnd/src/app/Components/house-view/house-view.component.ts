@@ -113,7 +113,25 @@ export class HouseViewComponent implements OnInit {
       
       
     }
-   
+    updateDoors(){
+
+      this.http.getAllHouse().subscribe((data) => {
+      var json = JSON.parse(JSON.stringify(data));
+      
+      
+      for (let element of this.doors){
+        var status = json["door" + String(element.id)];
+        element.on = status;
+      }
+      this.reDrawDoors();
+    }, (error) => {
+      console.log("Error al realizar la actualizacion de la casa");
+      console.log(error);
+    });
+
+    
+    
+  }
     async loadImage(src: string): Promise<HTMLImageElement> {
       const image = new Image();
       image.src = src;
@@ -214,7 +232,7 @@ export class HouseViewComponent implements OnInit {
       }
     }
     this.reDrawLights();
-    
+    this.updateDoors();
     this.http.postLedChanges(id).subscribe((data) => {
       console.log(data)
       
