@@ -219,6 +219,7 @@ export class HouseViewComponent implements OnInit {
       console.log("Error al actualizar las luces");
       console.log(error);
     });
+    this.updateAll();
       
   }
   actionDoor(id: number){
