@@ -8,11 +8,11 @@ export class ServerConectionService {
 
   constructor(private http: HttpClient) {
   }
-  server = 'http://localhost:8080/';
+  server = 'http://192.168.1.101:8080/';
 
   postLedChanges(led: number) {
-  var response:number[]; 
-  response = [led]
+    var response: number[];
+    response = [led]
 
     return this.http.post(this.server + '/Api/Leds', response);
   }
@@ -21,7 +21,7 @@ export class ServerConectionService {
   }
   getCamara() {
     return this.http.get(this.server + '/Api/Camera');
-    
+
   }
 
 }
